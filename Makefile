@@ -4,5 +4,14 @@ ifneq (,$(wildcard ./.env))
     export
 endif
 
+pip-install:
+	pip install -r requirements.txt -r requirements-dev.txt
+
 run-tests:
 	pytest -v
+
+run-unit-tests:
+	pytest -v python/tests/unit
+
+run-e2e-tests:
+	pytest -rx python/tests/e2e

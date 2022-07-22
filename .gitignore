@@ -1,5 +1,6 @@
 # Python
 **/*pycache*/*
+.venv
 
 # Visual Studio Code
 .vscode
