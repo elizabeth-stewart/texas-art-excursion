@@ -20,7 +20,7 @@ cffi==1.15.1
     # via cryptography
 charset-normalizer==2.1.0
     # via requests
-cryptography==39.0.1
+cryptography==42.0.4
     # via
     #   pyopenssl
     #   urllib3
@@ -59,6 +59,7 @@ urllib3[secure,socks]==1.26.10
     # via
     #   requests
     #   selenium
+    #   urllib3
 webdriver-manager==3.8.2
     # via -r requirements.in
 wsproto==1.1.0
