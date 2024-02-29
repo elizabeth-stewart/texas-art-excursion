@@ -1,5 +1,4 @@
-from app.kimbell_art_museum import KimbellArtMuseum
-from app.metadata.models import MuseumSearchResult
+from kimbell_art_museum import KimbellArtMuseum
 
 
 class TestKimbellArtMuseumUnit:

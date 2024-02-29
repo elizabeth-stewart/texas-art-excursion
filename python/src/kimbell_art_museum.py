@@ -1,5 +1,5 @@
-from app.metadata.models import MuseumSearchResult
-from app.metadata.museum_info import MuseumInfo
+from metadata.models import MuseumSearchResult
+from metadata.museum_info import MuseumInfo
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -92,7 +92,7 @@ class KimbellArtMuseum:
 
 
 if __name__ == "__main__":
-    search_results = KimbellArtMuseum().run_search("caravaggio", True)
+    search_results = KimbellArtMuseum().run_search("caravaggio", False)
 
     for search_result in search_results:
         search_result.print()

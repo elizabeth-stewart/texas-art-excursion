@@ -1,4 +1,4 @@
-from app.kimbell_art_museum import KimbellArtMuseum
+from kimbell_art_museum import KimbellArtMuseum
 
 class TestKimbellArtMuseumE2E:
     def test_monet_on_view_filter_unchecked(self):
