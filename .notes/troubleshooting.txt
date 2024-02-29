@@ -1,0 +1,4 @@
+If getting blocked by Cloudflare, try adding these options to Selenium Driver:
+options.add_argument("--window-size=1920,1080")
+options.add_argument('--ignore-certificate-errors')
+options.add_argument('--allow-running-insecure-content')

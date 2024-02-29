@@ -92,7 +92,7 @@ class KimbellArtMuseum:
 
 
 if __name__ == "__main__":
-    search_results = KimbellArtMuseum().run_search("caravaggio", False)
+    search_results = KimbellArtMuseum().run_search("caravaggio", True)
 
     for search_result in search_results:
         search_result.print()
