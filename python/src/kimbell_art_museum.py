@@ -9,7 +9,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import re
 
 
-ON_VIEW_FILTER = "&f%5B0%5D=on_view%3A1"
+ON_VIEW_FILTER = "&f[0]=on_view:1"
 
 class KimbellArtMuseum:
     """
@@ -25,22 +25,24 @@ class KimbellArtMuseum:
         website = "https://kimbellart.org/"
     )
 
-    
+    def __init__(self, base_url = "https://kimbellart.org/collection") -> None:
+        self.base_url = base_url
+
     def run_search(self, artist: str, on_view_only: bool) -> List[MuseumSearchResult]:
+        selenium_driver = self.get_selenium_driver()
+        search_results = self.fetch_artwork_results(artist, self.get_search_url(artist, on_view_only), selenium_driver)
+        selenium_driver.close()
+
+        return search_results
+
+    def fetch_artwork_results(self, artist: str, url: str, selenium_driver: webdriver.Chrome) -> List[MuseumSearchResult]:
         """
         Inputs:
             artist: search will do a case insensitive match for the entire string
                 ex. "monet" will return results for "Claude Monet", "Monet, Claude", "Monet"
                     "claude monet" will return results for "Claude Monet" and NOT "Monet, Claude" or "Monet"
         """
-        selenium_driver = self.__get_selenium_driver()
-
-        additional_filters = ""
-
-        if on_view_only:
-            additional_filters = ON_VIEW_FILTER
-
-        selenium_driver.get(f"https://kimbellart.org/collection?keys={artist}{additional_filters}")
+        selenium_driver.get(url)
 
         elements = selenium_driver.find_elements(By.CLASS_NAME, "collection-teaser__text")
 
@@ -64,11 +66,12 @@ class KimbellArtMuseum:
                     )
                 )
 
-        selenium_driver.close()
-
         return search_results
+    
+    def get_search_url(self, artist: str, on_view_only: bool) -> str:
+        return f"{self.base_url}?keys={artist}{ON_VIEW_FILTER if on_view_only else ''}"
 
-    def __get_selenium_driver(self):
+    def get_selenium_driver(self):
         options = Options()
         options.add_argument('--headless=new')
         user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36'
