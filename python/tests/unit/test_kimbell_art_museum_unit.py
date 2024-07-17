@@ -15,13 +15,25 @@ class TestKimbellArtMuseumUnit:
         
         selenium_driver.get.assert_called_with(local_html_file)
 
-    def test_get_search_result_from_art_description(self):
+    def test_get_search_result_from_art_description_no_commas_in_title(self):
         artwork_description_text = "Claude Monet, Weeping Willow, 1918-19"
         artwork_attributes = KimbellArtMuseum("path/to/collection").get_artwork_attributes(artwork_description_text)
 
         expected_result = {
             "artist": "Claude Monet",
             "title": "Weeping Willow",
+            "year": "1918-19"
+        }
+
+        assert artwork_attributes == expected_result
+
+    def test_get_search_result_from_art_description_commas_in_title(self):
+        artwork_description_text = "Claude Monet, Willow, Weeping, 1918-19"
+        artwork_attributes = KimbellArtMuseum("path/to/collection").get_artwork_attributes(artwork_description_text)
+
+        expected_result = {
+            "artist": "Claude Monet",
+            "title": "Willow, Weeping",
             "year": "1918-19"
         }
 

@@ -78,11 +78,18 @@ class KimbellArtMuseum:
         options.add_argument(f'user-agent={user_agent}')
         return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
-    # TODO: need to rework this for things like "Edgar Degas, After the Bath, Woman Drying Her Hair, c. 1895"
-    # The title is always in a <a href> element:
-    # <div>Edgar Degas, <em><a href="/collection/ap-199504" rel="bookmark">After the Bath, Woman Drying Her Hair</a></em>, c. 1895</div>
     def get_artwork_attributes(self, artwork_description):
-        artist, title, year = artwork_description.split(", ", 3)
+        # ^[^,]*,: Matches the beginning of the string followed by any characters except commas until the first comma.
+        # \s*: Matches any whitespace characters after the first comma.
+        # (.*): Captures any characters (including commas) between the first and last comma.
+        # ,[^,]*$: Matches the last comma followed by any characters except commas until the end of the string.
+        pattern = r'^([^,]*),\s*(.*),\s*([^,]*)$'
+        match = re.search(pattern, artwork_description)
+
+        if match:
+            artist = match.group(1)
+            title = match.group(2)
+            year = match.group(3)
 
         return {
             "artist": artist,

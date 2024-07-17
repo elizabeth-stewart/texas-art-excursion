@@ -54,5 +54,15 @@ class TestKimbellArtMuseumIntegration(TestCase):
         assert results[1].year == "1918–19"
         assert results[1].link == "file:///collection/ap-199602"
 
+    def test_run_search_returns_one_result_for_degas(self):
+        kimbell = KimbellArtMuseum(self.local_html_file)
+        results = kimbell.run_search("degas", False)
+
+        assert len(results) == 1
+        assert results[0].artist == "Edgar Degas"
+        assert results[0].title == "After the Bath, Woman Drying Her Hair"
+        assert results[0].year == "c. 1895"
+        assert results[0].link == "file:///collection/ap-199504"
+
     def tearDown(self) -> None:
         self.selenium_driver.quit()
